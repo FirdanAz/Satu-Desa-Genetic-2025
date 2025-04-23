@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "187481833333",
+    "project_id": "satu-desa-5a948",
+    "storage_bucket": "satu-desa-5a948.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187481833333:android:28114d8142f231925bdd3c",
+        "android_client_info": {
+          "package_name": "com.example.satu_desa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi0toX1my-eDeGN8AHJAwNvJ8VtAj3CSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
