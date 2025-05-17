@@ -1,5 +1,20 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:satu_desa/features/aspiration/cubit/aspiration_cubit.dart';
+import 'package:satu_desa/features/bayar_sampah/cubit/sampah_cubit.dart';
+import 'package:satu_desa/features/dana_desa/cubit/dana_desa_cubit.dart';
+import 'package:satu_desa/features/login/cubit/login_cubit.dart';
+import 'package:satu_desa/features/profile/cubit/profile_cubit.dart';
+import 'package:satu_desa/features/register/cubit/register_cubit.dart';
+
 class Provider {
   static providers() {
-    return [];
+    return [
+      BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
+      BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
+      BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
+      BlocProvider<SampahCubit>(create: (context) => SampahCubit()),
+      BlocProvider<DanaDesaCubit>(create: (context) => DanaDesaCubit()),
+      BlocProvider<AspirationCubit>(create: (context) => AspirationCubit()),
+    ];
   }
 }
