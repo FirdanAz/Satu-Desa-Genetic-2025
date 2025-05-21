@@ -17,11 +17,12 @@ class DanaDesaCubit extends Cubit<DanaDesaState> {
 
       String? bearerToken = LocalDataPersistance().getBearerToken();
 
-      DanaDesaModel danaDesa = await ApiService.getHistoryTransaksi(bearerToken!);
+      DanaDesaModel danaDesa =
+          await ApiService.getHistoryTransaksi(bearerToken!);
       print(danaDesa);
-
       emit(DanaDesaState(
-          status: DanaDesaStatus.success, danaDesaModel: danaDesa));
+          status: DanaDesaStatus.success,
+          danaDesaModel: danaDesa));
     } catch (e) {
       if (kDebugMode) print(e);
       emit(DanaDesaState(

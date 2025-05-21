@@ -17,6 +17,8 @@ class HistoryTransaksiModel {
     String transactionStatus;
     String midtransOrderId;
     String amount;
+    int month;
+    int year;
     DateTime createdAt;
     DateTime updatedAt;
     User user;
@@ -30,6 +32,8 @@ class HistoryTransaksiModel {
         required this.transactionStatus,
         required this.midtransOrderId,
         required this.amount,
+        required this.month,
+        required this.year,
         required this.createdAt,
         required this.updatedAt,
         required this.user,
@@ -44,6 +48,8 @@ class HistoryTransaksiModel {
         transactionStatus: json["transaction_status"],
         midtransOrderId: json["midtrans_order_id"],
         amount: json["amount"],
+        month: json["month"],
+        year: json["year"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         user: User.fromJson(json["user"]),
@@ -58,6 +64,8 @@ class HistoryTransaksiModel {
         "transaction_status": transactionStatus,
         "midtrans_order_id": midtransOrderId,
         "amount": amount,
+        "month": month,
+        "year": year,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "user": user.toJson(),

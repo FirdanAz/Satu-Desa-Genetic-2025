@@ -5,6 +5,7 @@ import 'package:satu_desa/core/public/shimmer/shimmer_home_page.dart';
 import 'package:satu_desa/core/public/widgets/custom_list_tile.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/features/dana_desa/cubit/dana_desa_cubit.dart';
+import 'package:satu_desa/features/dana_desa/views/pages/dana_desa_detail_page.dart';
 import 'package:satu_desa/features/dana_desa/views/widgets/card_anggaran_widget.dart';
 
 class DanaDesaPage extends StatefulWidget {
@@ -44,7 +45,6 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
           if (state.status == DanaDesaStatus.loading) {
             return ShimmerHomePage();
           } else if (state.status == DanaDesaStatus.failed) {
-            Navigator.pop(context);
             AwesomeDialog(
                 context: context,
                 dialogType: DialogType.error,
@@ -58,9 +58,12 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CardAnggaranWidget(
-                      totalAnggaran: state.danaDesaModel!.data.first.totalAmountValue.toInt(),
-                      anggaranTerpakai: state.danaDesaModel!.data.first.usedAmount.toInt(),
-                      tahunAnggaran: '2024',
+                      totalAnggaran: state
+                          .danaDesaModel!.data.first.totalAmountValue
+                          .toInt(),
+                      anggaranTerpakai:
+                          state.danaDesaModel!.data.first.usedAmount.toInt(),
+                      tahunAnggaran: state.danaDesaModel!.data.first.year,
                     ),
                     SizedBox(
                       height: 25,
@@ -78,7 +81,8 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        var data = state.danaDesaModel!.data.first.usages[index];
+                        var data =
+                            state.danaDesaModel!.data.first.usages[index];
 
                         return Container(
                           padding: EdgeInsets.all(16),
@@ -89,10 +93,27 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomListTile(
-                                  iconAsset: "assets/icons/ic_done.svg",
-                                  title: data.categoryType == "INFRASTRUKTUR_DESA" ? "Infrastruktur desa" : data.categoryType == "INVENTARIS_PEMERINTAH" ? "Inventaris Pemerintah Desa" : data.categoryType == "BANTUAN_SOSIAL" ? "Bantuan Sosial" : "",
-                                  subTitle: data.title),
+                              InkWell(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DanaDesaDetailPage(
+                                          dataUsage: data),
+                                    )),
+                                child: CustomListTile(
+                                    iconAsset: "assets/icons/ic_done.svg",
+                                    title: data.categoryType ==
+                                            "INFRASTRUKTUR_DESA"
+                                        ? "Infrastruktur desa"
+                                        : data.categoryType ==
+                                                "INVENTARIS_PEMERINTAH"
+                                            ? "Inventaris Pemerintah Desa"
+                                            : data.categoryType ==
+                                                    "BANTUAN_SOSIAL"
+                                                ? "Bantuan Sosial"
+                                                : "",
+                                    subTitle: data.title),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -111,7 +132,8 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                                             color: AppColor.descText),
                                       ),
                                       Text(
-                                        formatRupiah(double.parse(data.cost).toInt()),
+                                        formatRupiah(
+                                            double.parse(data.cost).toInt()),
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,

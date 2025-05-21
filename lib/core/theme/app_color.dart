@@ -8,4 +8,5 @@ class AppColor {
   static const Color bgButton = Color(0xffF5F5F5);
   static const Color bgButtonBorder = Color(0xffD6D6D6);
   static const Color bgOnPrimary = Color(0xffD9D9D9);
+  static const Color redIcon = Color(0xffFF4B4B);
 }

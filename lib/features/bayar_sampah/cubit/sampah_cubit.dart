@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
-import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_mode.dart';
+import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_model.dart';
 import 'package:satu_desa/features/bayar_sampah/services/api_services.dart';
 
 part 'sampah_state.dart';

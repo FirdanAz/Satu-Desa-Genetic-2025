@@ -6,12 +6,11 @@ class DanaDesaState extends Equatable {
   final DanaDesaStatus status;
   final DanaDesaModel? danaDesaModel;
   final String? errorMessage;
-  
-  const DanaDesaState({
-    required this.status,
-    this.danaDesaModel,
-    this.errorMessage
-  });
+
+  const DanaDesaState(
+      {required this.status,
+      this.danaDesaModel,
+      this.errorMessage});
 
   const DanaDesaState.initial() : this(status: DanaDesaStatus.initial);
 

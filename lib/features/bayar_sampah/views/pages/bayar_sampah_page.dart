@@ -7,7 +7,7 @@ import 'package:satu_desa/core/public/widgets/custom_list_tile.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
 import 'package:satu_desa/features/bayar_sampah/cubit/sampah_cubit.dart';
-import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_mode.dart';
+import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_model.dart';
 import 'package:satu_desa/features/bayar_sampah/views/pages/midtrans_payment_page.dart';
 import 'package:satu_desa/features/bayar_sampah/views/pages/payment_detail_page.dart';
 import 'package:satu_desa/features/bayar_sampah/views/widgets/iuran_sampah_card.dart';
@@ -32,7 +32,7 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
     for (var payment in payments) {
       if (payment.transactionStatus == 'paid' &&
           payment.createdAt.year == targetYear) {
-        final monthIndex = payment.createdAt.month - 1; // index dari 0
+        final monthIndex = payment.month - 1; // index dari 0
         paidMonths[monthIndex] = true;
       }
     }
@@ -120,18 +120,33 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
                         year: _year,
                         currentMonth: DateTime.now().month,
                         paidMonths: paidMonths,
-                        onBayarPressed: () {
+                        onBayarPressed: (selectedMonth) {
+                          final monthNames = [
+                            'Januari',
+                            'Februari',
+                            'Maret',
+                            'April',
+                            'Mei',
+                            'Juni',
+                            'Juli',
+                            'Agustus',
+                            'September',
+                            'Oktober',
+                            'November',
+                            'Desember'
+                          ];
                           AwesomeDialog(
                             context: context,
                             dialogType: DialogType.success,
                             animType: AnimType.scale,
-                            title: "Bayar Sampah Bulan ini?",
+                            title:
+                                "Bayar Iuran Bulan ${monthNames[selectedMonth - 1]}?",
                             btnOkText: "Bayar",
                             btnOkColor: AppColor.primary,
                             btnOkOnPress: () {
                               cubit.postCreatePayment(
-                                year: DateTime.now().year.toString(),
-                                month: DateTime.now().month.toString(),
+                                year: _year.toString(),
+                                month: selectedMonth.toString(),
                               );
                             },
                           ).show();
@@ -167,8 +182,7 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
                                       MaterialPageRoute(
                                         builder: (context) => PaymentDetailPage(
                                             nama: _localData.getUserName()!,
-                                            bulan:
-                                                getBulan(data.createdAt),
+                                            bulan: getBulan(data.createdAt),
                                             metodePembayaran:
                                                 data.paymentMethod,
                                             jumlah: formatRupiah(data.amount)),
@@ -178,7 +192,7 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      getBulan(data.createdAt),
+                                      getBulan(DateTime(_year, data.month)),
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: AppColor.descText),
@@ -190,7 +204,7 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
                                       iconAsset: "assets/icons/ic_done.svg",
                                       title: 'Iuran Retribusi Sampah',
                                       subTitle: formatRupiah(data.amount),
-                                      date: formatTanggal(data.createdAt),
+                                      action: formatTanggal(data.createdAt),
                                     ),
                                     SizedBox(
                                       height: 10,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 
-class IuranSampahCard extends StatelessWidget {
+class IuranSampahCard extends StatefulWidget {
   final int year;
   final int currentMonth; // Bulan saat ini (1-12)
   final List<bool> paidMonths; // Index 0: Jan, dst...
-  final VoidCallback? onBayarPressed;
+  final void Function(int month)? onBayarPressed;
 
   const IuranSampahCard({
     super.key,
@@ -15,6 +15,19 @@ class IuranSampahCard extends StatelessWidget {
     required this.paidMonths,
     this.onBayarPressed,
   });
+
+  @override
+  State<IuranSampahCard> createState() => _IuranSampahCardState();
+}
+
+class _IuranSampahCardState extends State<IuranSampahCard> {
+  late int selectedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedMonth = widget.currentMonth; // default: bulan saat ini
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +45,7 @@ class IuranSampahCard extends StatelessWidget {
       'Nov',
       'Des'
     ];
-    final paid = paidMonths[currentMonth - 1];
+    final paid = widget.paidMonths[selectedMonth - 1];
     print(paid);
     final isBayarAvailable = !paid;
 
@@ -82,7 +95,7 @@ class IuranSampahCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Thn $year',
+                'Thn ${widget.year}',
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
@@ -100,27 +113,37 @@ class IuranSampahCard extends StatelessWidget {
               itemCount: 12,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
-                final isPaid = paidMonths[index];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      monthNames[index],
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                final isPaid = widget.paidMonths[index];
+                final isSelected = selectedMonth == index + 1;
+
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedMonth = index + 1;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        monthNames[index],
+                        style: TextStyle(
+                          color:
+                              isSelected ? Colors.yellowAccent : Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Image.asset(
-                      isPaid
-                          ? 'assets/icons/ic_indicator_done.png'
-                          : 'assets/icons/ic_indicator_not_yet.png',
-                      width: 22,
-                      height: 22,
-                    )
-                  ],
+                      const SizedBox(height: 4),
+                      Image.asset(
+                        isPaid
+                            ? 'assets/icons/ic_indicator_done.png'
+                            : 'assets/icons/ic_indicator_not_yet.png',
+                        width: 22,
+                        height: 22,
+                      )
+                    ],
+                  ),
                 );
               },
             ),
@@ -132,8 +155,8 @@ class IuranSampahCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   paid
-                      ? 'Anda Sudah Membayar Iuran Bulan ${monthNames[currentMonth - 1]}'
-                      : 'Iuran Bulan ${monthNames[currentMonth - 1]} Belum Dibayar',
+                      ? 'Anda Sudah Membayar Iuran Bulan ${monthNames[widget.currentMonth - 1]}'
+                      : 'Iuran Bulan ${monthNames[widget.currentMonth - 1]} Belum Dibayar',
                   style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -142,7 +165,9 @@ class IuranSampahCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: isBayarAvailable ? onBayarPressed : null,
+                onPressed: isBayarAvailable
+                    ? () => widget.onBayarPressed?.call(selectedMonth)
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white.withOpacity(0.8),
                   foregroundColor: Colors.green[800],

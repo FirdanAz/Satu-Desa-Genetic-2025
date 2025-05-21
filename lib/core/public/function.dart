@@ -96,4 +96,21 @@ class PublicFunction {
       ],
     );
   }
+
+  String formatTanggal(DateTime date) {
+    final formatter = DateFormat('d MMM yyyy', 'id_ID');
+    return formatter.format(date);
+  }
+
+  String formatRupiah(String raw) {
+    final double number = double.tryParse(raw) ?? 0.0;
+
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0, // hilangkan angka di belakang koma
+    );
+
+    return formatter.format(number);
+  }
 }

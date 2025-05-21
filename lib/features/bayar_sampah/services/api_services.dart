@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:satu_desa/core/constant/constant.dart';
-import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_mode.dart';
+import 'package:satu_desa/features/bayar_sampah/models/history_transaksi_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {

@@ -94,6 +94,8 @@ class Usage {
   String? reportFile;
   DateTime createdAt;
   DateTime updatedAt;
+  String? fundCode;
+  List<Image> images;
 
   Usage({
     required this.id,
@@ -108,6 +110,8 @@ class Usage {
     required this.reportFile,
     required this.createdAt,
     required this.updatedAt,
+    required this.fundCode,
+    required this.images,
   });
 
   factory Usage.fromJson(Map<String, dynamic> json) => Usage(
@@ -123,6 +127,8 @@ class Usage {
         reportFile: json["report_file"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        fundCode: json["fund_code"] ?? "",
+        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,6 +144,40 @@ class Usage {
             "${endDate.year.toString().padLeft(4, '0')}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}",
         "cost": cost,
         "report_file": reportFile,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "fund_code": fundCode,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+      };
+}
+
+class Image {
+  int id;
+  int villageFundUsageId;
+  String imagePath;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  Image({
+    required this.id,
+    required this.villageFundUsageId,
+    required this.imagePath,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) => Image(
+        id: json["id"],
+        villageFundUsageId: json["village_fund_usage_id"],
+        imagePath: json["image_path"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "village_fund_usage_id": villageFundUsageId,
+        "image_path": imagePath,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
       };
