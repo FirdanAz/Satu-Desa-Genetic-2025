@@ -17,6 +17,7 @@ import 'package:satu_desa/core/public/shimmer/shimmer_home_page.dart';
 import 'package:satu_desa/features/home_page/views/widgets/title_text_menu_widget.dart';
 import 'package:satu_desa/features/join_desa/cubit/join_desa_cubit.dart';
 import 'package:satu_desa/features/join_desa/views/pages/join_desa_page.dart';
+import 'package:satu_desa/features/kabar_desa/views/pages/kabar_desa_page.dart';
 import 'package:satu_desa/features/profile/cubit/profile_cubit.dart';
 import 'package:satu_desa/features/profile/views/pages/fill_data_profile_page.dart';
 import 'package:satu_desa/features/profile/views/pages/profile_page.dart';
@@ -102,7 +103,6 @@ class _HomePageState extends State<HomePage> {
                   listener: (context, state) {
                     print(state.status);
                     if (state.status == JoinDesaStatus.isMyRequest) {
-                      
                     } else {
                       _showDialogNullDesa();
                       return _showDialogNullDesa();
@@ -345,9 +345,14 @@ class _HomePageState extends State<HomePage> {
                                             : _showDialogNullProfile(),
                                   ),
                                   MenuHomePageWidget(
-                                      title: "Kabar\nDesa",
-                                      iconAsset:
-                                          "assets/icons/ic_kabar_desa.svg"),
+                                    title: "Kabar\nDesa",
+                                    iconAsset: "assets/icons/ic_kabar_desa.svg",
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => KabarDesaPage(),
+                                        )),
+                                  ),
                                   MenuHomePageWidget(
                                       title: "Layanan\nSurat",
                                       iconAsset:
