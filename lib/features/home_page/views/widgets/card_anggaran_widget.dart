@@ -7,10 +7,10 @@ class CardAnggaranWidget extends StatelessWidget {
   final int anggaranTerpakai;
 
   const CardAnggaranWidget({
-    Key? key,
+    super.key,
     required this.totalAnggaran,
     required this.anggaranTerpakai,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

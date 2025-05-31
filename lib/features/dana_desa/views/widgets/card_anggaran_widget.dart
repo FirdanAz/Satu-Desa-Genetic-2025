@@ -7,11 +7,11 @@ class CardAnggaranWidget extends StatelessWidget {
   final String tahunAnggaran;
 
   const CardAnggaranWidget({
-    Key? key,
+    super.key,
     required this.totalAnggaran,
     required this.anggaranTerpakai,
     required this.tahunAnggaran,
-  }) : super(key: key);
+  });
 
   String formatRupiah(int amount) {
     return 'Rp${amount.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => '.')}';

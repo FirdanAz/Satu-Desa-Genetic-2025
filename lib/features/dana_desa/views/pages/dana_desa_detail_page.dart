@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:satu_desa/core/public/widgets/custom_list_tile.dart';
-import 'package:satu_desa/core/public/widgets/list_tile_image_widget.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/features/dana_desa/models/dana_desa_model.dart'
     as dana;

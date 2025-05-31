@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:satu_desa/core/public/shimmer/shimmer_profile_page.dart';
@@ -25,12 +24,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final LocalDataPersistance _localData = LocalDataPersistance();
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProfileCubit>().getProfile();
-  }
-
   void _profileListener(BuildContext context, ProfileState state) {
     final Size screenSize = MediaQuery.sizeOf(context);
     if (state.status == ProfileStatus.loading) {
@@ -41,16 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ));
     } else if (state.status == ProfileStatus.success) {
       if (state.profileModel!.userProfile == null) {
-        AwesomeDialog(
-                context: context,
-                dialogType: DialogType.noHeader,
-                animType: AnimType.rightSlide,
-                title: 'Profile Belum Lengkap',
-                desc: 'Lengkapi Profile untuk memudahkan valisadi',
-                btnOkOnPress: () {},
-                btnOkText: "Lengkapi",
-                btnOkColor: AppColor.primary)
-            .show();
+        
       }
     } else if (state.status == ProfileStatus.logOutSuccess) {
       Navigator.pushAndRemoveUntil(

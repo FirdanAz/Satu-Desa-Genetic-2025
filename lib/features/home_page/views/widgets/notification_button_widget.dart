@@ -38,6 +38,6 @@ class NotificationButtonWidget extends StatelessWidget {
           ),
         ),
       ),
-    );;
+    );
   }
 }

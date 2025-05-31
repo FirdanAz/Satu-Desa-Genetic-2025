@@ -51,6 +51,7 @@ class _SendOtpPageState extends State<SendOtpPage> {
       );
       final LocalDataPersistance localDataPersistance = LocalDataPersistance();
       await localDataPersistance.setBearerToken(widget.bearerToken);
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeNavWrapper()),

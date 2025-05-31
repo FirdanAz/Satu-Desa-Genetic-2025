@@ -6,8 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class MidtransPaymentPage extends StatefulWidget {
   final String snapToken;
 
-  const MidtransPaymentPage({Key? key, required this.snapToken})
-      : super(key: key);
+  const MidtransPaymentPage({super.key, required this.snapToken});
 
   @override
   State<MidtransPaymentPage> createState() => _MidtransPaymentPageState();

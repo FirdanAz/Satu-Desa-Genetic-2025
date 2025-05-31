@@ -9,12 +9,12 @@ class InputFieldWidget extends StatefulWidget {
   final TextEditingController textEditingController;
 
   const InputFieldWidget({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.iconPath,
     required this.isPassword,
     required this.textEditingController,
-  }) : super(key: key);
+  });
 
   @override
   State<InputFieldWidget> createState() => _InputFieldWidgetState();

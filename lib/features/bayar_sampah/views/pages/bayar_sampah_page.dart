@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:satu_desa/core/public/shimmer/shimmer_bayar_sampah_page.dart';
 import 'package:satu_desa/core/public/widgets/custom_list_tile.dart';
+import 'package:satu_desa/core/public/widgets/info_empty_widget.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
 import 'package:satu_desa/features/bayar_sampah/cubit/sampah_cubit.dart';
@@ -22,7 +23,7 @@ class BayarSampahPage extends StatefulWidget {
 class _BayarSampahPageState extends State<BayarSampahPage> {
   final LocalDataPersistance _localData = LocalDataPersistance();
   final cubit = SampahCubit()..getHistoryTransaksi();
-  int _year = 2025;
+  final int _year = 2025;
   List<bool> paidMonths = [];
 
   List<bool> getPaidMonthsFromModel(
@@ -163,58 +164,68 @@ class _BayarSampahPageState extends State<BayarSampahPage> {
                       SizedBox(
                         height: 16,
                       ),
-                      Container(
-                          width: double.maxFinite,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: state.transaksiModel!.length,
-                            itemBuilder: (context, index) {
-                              var data = state.transaksiModel![index];
+                      state.transaksiModel!.isNotEmpty
+                          ? Container(
+                              width: double.maxFinite,
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state.transaksiModel!.length,
+                                itemBuilder: (context, index) {
+                                  var data = state.transaksiModel![index];
 
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PaymentDetailPage(
-                                            nama: _localData.getUserName()!,
-                                            bulan: getBulan(data.createdAt),
-                                            metodePembayaran:
-                                                data.paymentMethod,
-                                            jumlah: formatRupiah(data.amount)),
-                                      ));
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PaymentDetailPage(
+                                                    nama: _localData
+                                                        .getUserName()!,
+                                                    bulan: getBulan(
+                                                        data.createdAt),
+                                                    metodePembayaran:
+                                                        data.paymentMethod,
+                                                    jumlah: formatRupiah(
+                                                        data.amount)),
+                                          ));
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          getBulan(DateTime(_year, data.month)),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: AppColor.descText),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        CustomListTile(
+                                          iconAsset: "assets/icons/ic_done.svg",
+                                          title: 'Iuran Retribusi Sampah',
+                                          subTitle: formatRupiah(data.amount),
+                                          action: formatTanggal(data.createdAt),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Divider()
+                                      ],
+                                    ),
+                                  );
                                 },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      getBulan(DateTime(_year, data.month)),
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: AppColor.descText),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    CustomListTile(
-                                      iconAsset: "assets/icons/ic_done.svg",
-                                      title: 'Iuran Retribusi Sampah',
-                                      subTitle: formatRupiah(data.amount),
-                                      action: formatTanggal(data.createdAt),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Divider()
-                                  ],
-                                ),
-                              );
-                            },
-                          ))
+                              ))
+                          : Center(
+                              child: InfoEmptyWidget(
+                                  emptyText: "Riwayat Transaksi"))
                     ],
                   ),
                 ),

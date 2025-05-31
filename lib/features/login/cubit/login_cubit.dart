@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
 import 'package:satu_desa/features/login/models/login_model.dart';
 import 'package:satu_desa/features/login/service/api_service.dart';

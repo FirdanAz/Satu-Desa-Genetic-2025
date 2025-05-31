@@ -12,6 +12,7 @@ class CustomButtonWidget extends StatelessWidget {
     required this.isLoad,
     this.svgAsset,
     this.onPress,
+    this.titleSize
   });
   Color bgColor;
   Color titleColor;
@@ -19,6 +20,7 @@ class CustomButtonWidget extends StatelessWidget {
   String? svgAsset;
   VoidCallback? onPress;
   bool isLoad;
+  double? titleSize;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class CustomButtonWidget extends StatelessWidget {
                       Text(title, style: TextStyle(color: titleColor))
                     ],
                   )
-                : Text(title, style: TextStyle(color: titleColor)),
+                : Text(title, style: TextStyle(color: titleColor, fontSize: titleSize)),
       ),
     );
   }

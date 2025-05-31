@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:satu_desa/core/theme/app_color.dart';
 
 class CardAgendaDesaWidget extends StatelessWidget {
   const CardAgendaDesaWidget({super.key});

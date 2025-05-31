@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 
 class IuranSampahCard extends StatefulWidget {

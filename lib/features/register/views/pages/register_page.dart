@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:satu_desa/core/public/function.dart';
 import 'package:satu_desa/core/public/widgets/input_field_widget.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
-import 'package:satu_desa/core/widgets/snackbar.dart';
-import 'package:satu_desa/features/login/cubit/otp/otp_cubit.dart';
 import 'package:satu_desa/features/login/views/pages/login_page.dart';
-import 'package:satu_desa/features/login/views/pages/send_otp_page.dart';
 import 'package:satu_desa/features/login/views/widgets/custom_button_widget.dart';
 import 'package:satu_desa/features/register/cubit/register_cubit.dart';
 
@@ -27,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordEditController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
   void dispose() {
     super.dispose();
     _userNameEditController.dispose();

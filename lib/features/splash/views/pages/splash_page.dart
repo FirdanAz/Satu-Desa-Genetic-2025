@@ -1,15 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/core/widgets/snackbar.dart';
-import 'package:satu_desa/features/bottom_navigation/views/bottom_navigation.dart';
 import 'package:satu_desa/features/bottom_navigation/views/home_nav_wrapper.dart';
-import 'package:satu_desa/features/home_page/views/pages/home_page.dart';
-import 'package:satu_desa/features/login/views/pages/login_page.dart';
 import 'package:satu_desa/features/splash/cubit/splash_screen_cubit.dart';
 import 'package:satu_desa/features/splash/views/pages/on_boarding_page.dart';
 
