@@ -3,7 +3,9 @@ import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
 
 class AdditionalInfoWidget extends StatelessWidget {
-  const AdditionalInfoWidget({super.key});
+  const AdditionalInfoWidget({super.key, required this.domisili, required this.role});
+  final String domisili;
+  final String role;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class AdditionalInfoWidget extends StatelessWidget {
                     "Domisili",
                     localData.getUserCity() != null
                         ? localData.getUserCity().toString()
-                        : "-"),
+                        : domisili),
               ],
             ),
           ),

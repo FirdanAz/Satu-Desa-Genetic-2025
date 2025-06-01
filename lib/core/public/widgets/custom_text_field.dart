@@ -45,7 +45,7 @@ class CustomTextFieldWidget extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: TextFormField(

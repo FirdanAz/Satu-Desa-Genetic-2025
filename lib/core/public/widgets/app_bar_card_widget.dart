@@ -6,52 +6,93 @@ class AppBarCardWidget extends StatelessWidget {
   const AppBarCardWidget(
       {super.key,
       required this.title,
-      required this.btnText,
+      this.btnText,
       required this.iconPath,
       required this.appBarTitle,
-      this.onTap});
+      this.onTap,
+      this.desc,
+      this.backgroundColor});
   final String appBarTitle;
   final String title;
-  final String btnText;
+  final String? btnText;
   final String iconPath;
   final VoidCallback? onTap;
+  final String? desc;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 270,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[Color(0xFF6DB389), Color(0xFF3F7D58)],
-        ),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
-        ),
-      ),
+      decoration: backgroundColor == null
+          ? BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[Color(0xFF6DB389), Color(0xFF3F7D58)],
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            )
+          : BoxDecoration(
+              color: backgroundColor,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
       child: SafeArea(
         child: Stack(
           fit: StackFit.passthrough,
           children: [
-            SvgPicture.asset(
-              'assets/images/bg_auth.svg',
-              fit: BoxFit.fitWidth,
-            ),
+            backgroundColor == null
+                ? SvgPicture.asset(
+                    'assets/images/bg_auth.svg',
+                    fit: BoxFit.fitWidth,
+                  )
+                : Container(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 30, bottom: 15),
-                  child: Text(
-                    appBarTitle,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
+                backgroundColor != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            left: 30, top: 30, bottom: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(Icons.arrow_back,
+                                  color: Colors.white),
+                            ),
+                            const SizedBox(width: 14),
+                            const Text(
+                              'Layanan Surat',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                            left: 30, top: 30, bottom: 15),
+                        child: Text(
+                          appBarTitle,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
                 Container(
                   width: double.maxFinite,
                   margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -88,25 +129,40 @@ class AppBarCardWidget extends StatelessWidget {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   const SizedBox(
-                                    height: 45,
+                                    height: 12,
                                   ),
-                                  InkWell(
-                                    onTap: onTap,
-                                    child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 13, vertical: 5),
-                                        decoration: BoxDecoration(
-                                            color: AppColor.primary,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Text(
-                                          btnText,
+                                  desc != null
+                                      ? Text(
+                                          desc!,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        )),
-                                  )
+                                              color: AppColor.descText,
+                                              fontWeight: FontWeight.w500),
+                                        )
+                                      : Container(),
+                                  SizedBox(
+                                    height: desc != null ? 10 : 35,
+                                  ),
+                                  btnText != null
+                                      ? InkWell(
+                                          onTap: onTap,
+                                          child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 13, vertical: 5),
+                                              decoration: BoxDecoration(
+                                                  color: AppColor.primary,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Text(
+                                                btnText!,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white),
+                                              )),
+                                        )
+                                      : Container()
                                 ],
                               ),
                             ),

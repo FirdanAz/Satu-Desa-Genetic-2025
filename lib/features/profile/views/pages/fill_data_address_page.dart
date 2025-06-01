@@ -18,10 +18,12 @@ class FillDataAddressPage extends StatefulWidget {
       {super.key,
       required this.kartuKeluarga,
       required this.nomorInduk,
-      required this.nomorTelp});
+      required this.nomorTelp,
+      required this.isEditing});
   final String kartuKeluarga;
   final String nomorInduk;
   final String nomorTelp;
+  final bool isEditing;
 
   @override
   State<FillDataAddressPage> createState() => _FillDataAddressPageState();

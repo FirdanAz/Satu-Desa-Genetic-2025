@@ -4,9 +4,13 @@ import 'package:satu_desa/core/public/shimmer/shimmer_profile_page.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/core/utils/local_data/local_data_persistance.dart';
 import 'package:satu_desa/core/widgets/snackbar.dart';
+import 'package:satu_desa/features/admin/views/pages/dashboard_summary_page.dart';
 import 'package:satu_desa/features/profile/cubit/profile_cubit.dart';
 import 'package:satu_desa/features/profile/views/pages/change_password_page.dart';
+import 'package:satu_desa/features/profile/views/pages/desa/create_desa_page.dart';
 import 'package:satu_desa/features/profile/views/pages/edit_profile_page.dart';
+import 'package:satu_desa/features/profile/views/pages/faq_page.dart';
+import 'package:satu_desa/features/profile/views/pages/fill_data_profile_page.dart';
 import 'package:satu_desa/features/profile/views/widgets/additional_info_widget.dart';
 import 'package:satu_desa/features/profile/views/widgets/profile_header_widget.dart';
 import 'package:satu_desa/features/profile/views/widgets/profile_menu_item_widget.dart';
@@ -33,9 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ShimmerProfilePage(),
               ));
     } else if (state.status == ProfileStatus.success) {
-      if (state.profileModel!.userProfile == null) {
-        
-      }
+      if (state.profileModel!.userProfile == null) {}
     } else if (state.status == ProfileStatus.logOutSuccess) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -128,7 +130,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
-                              child: AdditionalInfoWidget(),
+                              child: AdditionalInfoWidget(
+                                domisili: state.profileModel!.userProfile!
+                                            .kabupaten !=
+                                        null
+                                    ? state
+                                        .profileModel!.userProfile!.kabupaten!
+                                    : "-",
+                                role: state.profileModel!.user.role,
+                              ),
                             ),
                             SizedBox(
                               height: 25,
@@ -143,7 +153,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Divider(),
                           SectionTitleWidget(title: 'Desa'),
-                          VillageInfoWidget(),
+                          VillageInfoWidget(
+                            title: state.profileModel!.userProfile!.address!,
+                            kodeDesa:
+                                state.desaCode != null ? state.desaCode! : "",
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -151,12 +165,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           SectionTitleWidget(title: 'Pengaturan Akun'),
                           ProfileMenuItemWidget(
                             title: 'Profil Akun',
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditProfilePage(),
-                              ),
-                            ),
+                            onTap: () {
+                              if (state.profileModel!.userProfile != null) {
+                                final data = state.profileModel!.userProfile!;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FillDataProfilePage(
+                                        kartuKeluarga: data.kartuKeluarga,
+                                        nomorInduk: data.nomorIndukKependudukan,
+                                        nomorTelp: data.phoneNumber,
+                                      ),
+                                    ));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          FillDataProfilePage(),
+                                    ));
+                              }
+                            },
                           ),
                           ProfileMenuItemWidget(
                             title: 'Ganti Password',
@@ -171,11 +200,41 @@ class _ProfilePageState extends State<ProfilePage> {
                           SectionTitleWidget(title: 'Pusat Bantuan'),
                           ProfileMenuItemWidget(
                             title: 'FAQ/Tanya Jawab',
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FaqPage(),
+                                )),
                           ),
                           ProfileMenuItemWidget(title: 'Kontak Admin Desa'),
                           Divider(),
                           SectionTitleWidget(title: 'Sekretaris Desa'),
-                          ProfileMenuItemWidget(title: 'Buat Desa'),
+                          ProfileMenuItemWidget(
+                              title: state.desaCode != null &&
+                                      state.profileModel!.userProfile!.desaId !=
+                                          0 &&
+                                      state.profileModel!.user.role == "admin"
+                                  ? 'Desa Saya'
+                                  : "Buat Desa",
+                              onTap: () {
+                                if (state.desaCode != null &&
+                                    state.profileModel!.userProfile!.desaId !=
+                                        0 &&
+                                    state.profileModel!.user.role == "admin") {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DashboardSummaryPage(),
+                                      ));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CreateDesaPage(),
+                                      ));
+                                }
+                              }),
                           Divider(),
                           SizedBox(
                             height: 20,

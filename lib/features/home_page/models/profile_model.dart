@@ -81,6 +81,10 @@ class UserProfile {
   String? status;
   String? role;
   String profilePicture;
+  String? provinsi;
+  String? kabupaten;
+  String? kecamatan;
+  String? desa;
 
   UserProfile({
     this.desaId = 0,
@@ -91,6 +95,10 @@ class UserProfile {
     this.status,
     this.role,
     this.profilePicture = "",
+    this.provinsi,
+    this.kabupaten,
+    this.kecamatan,
+    this.desa,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -102,6 +110,10 @@ class UserProfile {
         status: json["status"],
         role: json["role"],
         profilePicture: json["profile_picture"] ?? "",
+        provinsi: json["provinsi"] ?? "",
+        kabupaten: json["kabupaten"] ?? "",
+        kecamatan: json["kecamatan"] ?? "",
+        desa: json["desa"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,5 +125,9 @@ class UserProfile {
         "status": status,
         "role": role,
         "profile_picture": profilePicture,
+        "provinsi": provinsi,
+        "kabupaten": kabupaten,
+        "kecamatan": kecamatan,
+        "desa": desa,
       };
 }

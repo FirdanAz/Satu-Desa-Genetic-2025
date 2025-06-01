@@ -8,7 +8,11 @@ import 'package:satu_desa/features/profile/cubit/profile_cubit.dart';
 import 'package:satu_desa/features/profile/views/pages/fill_data_address_page.dart';
 
 class FillDataProfilePage extends StatefulWidget {
-  const FillDataProfilePage({super.key});
+  const FillDataProfilePage(
+      {super.key, this.kartuKeluarga, this.nomorInduk, this.nomorTelp});
+  final String? kartuKeluarga;
+  final String? nomorInduk;
+  final String? nomorTelp;
 
   @override
   State<FillDataProfilePage> createState() => _FillDataProfilePageState();
@@ -18,6 +22,14 @@ class _FillDataProfilePageState extends State<FillDataProfilePage> {
   final TextEditingController kartuKeluargaController = TextEditingController();
   final TextEditingController nomorIndukController = TextEditingController();
   final TextEditingController nomorTelpController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    kartuKeluargaController.text = widget.kartuKeluarga ?? '';
+    nomorIndukController.text = widget.nomorInduk ?? '';
+    nomorTelpController.text = widget.nomorTelp ?? '';
+  }
 
   @override
   void dispose() {
@@ -30,8 +42,11 @@ class _FillDataProfilePageState extends State<FillDataProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PublicWidget()
-          .customAppBar(title: "Lengkapi Profil", context: context),
+      appBar: PublicWidget().customAppBar(
+          title: kartuKeluargaController.text != ""
+              ? "Edit Profile"
+              : "Lengkapi Profil",
+          context: context),
       bottomSheet: Container(
         color: Colors.white,
         child: Padding(
@@ -54,49 +69,72 @@ class _FillDataProfilePageState extends State<FillDataProfilePage> {
                   if (kartuKeluargaController.text.isNotEmpty &&
                       nomorIndukController.text.isNotEmpty &&
                       nomorTelpController.text.isNotEmpty) {
+                    final isEditing = widget.kartuKeluarga != null;
+
                     QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.confirm,
-                        animType: QuickAlertAnimType.scale,
-                        title: "Data sudah sesuai?",
-                        text: "Pastikan data yang diisi sudah sesuai",
-                        confirmBtnText: "Sudah",
-                        confirmBtnTextStyle:
-                            TextStyle(fontSize: 14, color: Colors.white),
-                        onConfirmBtnTap: () async {
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                          QuickAlert.show(
-                              context: context,
-                              type: QuickAlertType.loading,
-                              animType: QuickAlertAnimType.scale,
-                              text: "Menyimpan...");
-                          await Future.delayed(Duration(seconds: 2));
+                      context: context,
+                      type: QuickAlertType.confirm,
+                      title: isEditing ? "Update data?" : "Data sudah sesuai?",
+                      text: isEditing
+                          ? "Apakah Anda yakin ingin memperbarui data ini?"
+                          : "Pastikan data yang diisi sudah sesuai",
+                      confirmBtnText: isEditing ? "Update" : "Sudah",
+                      confirmBtnColor: AppColor.primary,
+                      onConfirmBtnTap: () async {
+                        if (Navigator.canPop(context)) Navigator.pop(context);
+
+                        QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.loading,
+                            text:
+                                isEditing ? "Memperbarui..." : "Menyimpan...");
+
+                        await Future.delayed(Duration(seconds: 2));
+
+                        if (isEditing) {
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) =>
-                                      ProfileCubit()..fetchProvinces(),
-                                  child: FillDataAddressPage(
-                                      kartuKeluarga:
-                                          kartuKeluargaController.text,
-                                      nomorInduk: nomorIndukController.text,
-                                      nomorTelp: nomorTelpController.text),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) =>
+                                    ProfileCubit()..fetchProvinces(),
+                                child: FillDataAddressPage(
+                                  kartuKeluarga: kartuKeluargaController.text,
+                                  nomorInduk: nomorIndukController.text,
+                                  nomorTelp: nomorTelpController.text,
+                                  isEditing: true,
                                 ),
-                              ));
-                        },
-                        confirmBtnColor: AppColor.primary);
+                              ),
+                            ),
+                          );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) =>
+                                    ProfileCubit()..fetchProvinces(),
+                                child: FillDataAddressPage(
+                                  kartuKeluarga: kartuKeluargaController.text,
+                                  nomorInduk: nomorIndukController.text,
+                                  nomorTelp: nomorTelpController.text,
+                                  isEditing: false,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    );
                   } else {
                     QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.info,
-                        text: "periksa kembali formulir anda",
-                        animType: QuickAlertAnimType.scale,
-                        confirmBtnColor: AppColor.redIcon,
-                        title: "Data ada yang kosong",
-                        showConfirmBtn: false);
+                      context: context,
+                      type: QuickAlertType.info,
+                      title: "Data ada yang kosong",
+                      text: "Periksa kembali formulir anda",
+                      confirmBtnColor: AppColor.redIcon,
+                      showConfirmBtn: false,
+                    );
                   }
                 },
                 child: Text(

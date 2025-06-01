@@ -18,6 +18,7 @@ import 'package:satu_desa/features/home_page/views/widgets/title_text_menu_widge
 import 'package:satu_desa/features/join_desa/cubit/join_desa_cubit.dart';
 import 'package:satu_desa/features/join_desa/views/pages/join_desa_page.dart';
 import 'package:satu_desa/features/kabar_desa/views/pages/kabar_desa_page.dart';
+import 'package:satu_desa/features/layanan_surat/views/pages/layanan_surat_page.dart';
 import 'package:satu_desa/features/profile/cubit/profile_cubit.dart';
 import 'package:satu_desa/features/profile/views/pages/fill_data_profile_page.dart';
 import 'package:satu_desa/features/profile/views/pages/profile_page.dart';
@@ -347,16 +348,38 @@ class _HomePageState extends State<HomePage> {
                                   MenuHomePageWidget(
                                     title: "Kabar\nDesa",
                                     iconAsset: "assets/icons/ic_kabar_desa.svg",
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => KabarDesaPage(),
-                                        )),
+                                    onTap: () =>
+                                        state.profileModel!.userProfile != null
+                                            ? state.profileModel!.userProfile!
+                                                        .desaId !=
+                                                    0
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          KabarDesaPage(),
+                                                    ))
+                                                : _showDialogNullDesa()
+                                            : _showDialogNullProfile(),
                                   ),
                                   MenuHomePageWidget(
-                                      title: "Layanan\nSurat",
-                                      iconAsset:
-                                          "assets/icons/ic_layanan_surat.svg"),
+                                    title: "Layanan\nSurat",
+                                    iconAsset:
+                                        "assets/icons/ic_layanan_surat.svg",
+                                    onTap: () =>
+                                        state.profileModel!.userProfile != null
+                                            ? state.profileModel!.userProfile!
+                                                        .desaId !=
+                                                    0
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          LayananSuratPage(),
+                                                    ))
+                                                : _showDialogNullDesa()
+                                            : _showDialogNullProfile(),
+                                  ),
                                 ],
                               ),
                               SizedBox(

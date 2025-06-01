@@ -251,8 +251,9 @@ class _AspirationPageState extends State<AspirationPage> {
                               text: "Hapus ${aspirasi.judul}?",
                               confirmBtnText: "Hapus",
                               onConfirmBtnTap: () {
-                                if (Navigator.canPop(context))
+                                if (Navigator.canPop(context)) {
                                   Navigator.pop(context);
+                                }
 
                                 QuickAlert.show(
                                   context: context,

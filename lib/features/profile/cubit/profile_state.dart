@@ -17,6 +17,7 @@ class ProfileState extends Equatable {
   final LocationModel? kabupaten;
   final LocationModel? kecamatan;
   final DistricModel? desa;
+  final String? desaCode;
 
   final String? kodePos;
 
@@ -28,6 +29,7 @@ class ProfileState extends Equatable {
     this.kabupaten,
     this.kecamatan,
     this.desa,
+    this.desaCode,
     this.kodePos,
   });
 
@@ -41,6 +43,7 @@ class ProfileState extends Equatable {
       LocationModel? kabupaten,
       LocationModel? kecamatan,
       DistricModel? desa,
+      String? desaCode,
       bool setProfileModelToNull = false,
       bool setErrorMessageToNull = false,
       bool setProvincesToNull = false,
@@ -61,6 +64,7 @@ class ProfileState extends Equatable {
       kabupaten: setKabupatenToNull ? null : kabupaten ?? this.kabupaten,
       kecamatan: setKecamatanToNull ? null : kecamatan ?? this.kecamatan,
       desa: setDesaToNull ? null : desa ?? this.desa,
+      desaCode: desaCode ?? this.desaCode 
     );
   }
 

@@ -68,12 +68,10 @@ class _AspirasiFormPageState extends State<AspirasiFormPage> {
     final ImagePicker picker = ImagePicker();
     final List<XFile> selectedImages = await picker.pickMultiImage();
 
-    if (selectedImages != null) {
-      setState(() {
-        _images.addAll(selectedImages);
-      });
+    setState(() {
+      _images.addAll(selectedImages);
+    });
     }
-  }
 
   void _removeImage(int index) {
     setState(() {
@@ -341,7 +339,7 @@ class _AspirasiFormPageState extends State<AspirasiFormPage> {
                                 ),
                               ],
                             );
-                          }).toList(),
+                          }),
                         ],
                       ),
                     )

@@ -72,7 +72,7 @@ class _DanaDesaDetailPageState extends State<DanaDesaDetailPage> {
                 child: CustomListTile(
                   iconAsset: 'assets/icons/$iconPath.svg',
                   title: title,
-                  subTitle: "subTitle",
+                  subTitle: widget.dataUsage.fundCode!,
                   titleColor: Colors.white,
                   subTitleColor: Colors.white,
                   bgIconColor: Colors.white,

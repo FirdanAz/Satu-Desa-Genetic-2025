@@ -52,8 +52,6 @@ class _KabarDesaPageState extends State<KabarDesaPage> {
       backgroundColor: AppColor.bgButton,
       body: BlocBuilder<KabarDesaCubit, KabarDesaState>(
         builder: (context, state) {
-          print("Jumlah data yang muncul: ${state.kabarDesaModel?.kabarDesa?.length}");
-
           if (state.status == KabarDesaStatus.loading) {
             return ShimmerKabarDesaPage();
           } else if (state.status == KabarDesaStatus.success) {
@@ -131,15 +129,15 @@ class _KabarDesaPageState extends State<KabarDesaPage> {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: 3,
+                          itemCount: state.kabarDesaModel!.kabarDesa!.length,
+                          reverse: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
+                            final kabarDesa = state.kabarDesaModel!.kabarDesa![index];
                             return KabarDesaListCardWidget(
-                                imageUrl:
-                                    "https://gudangjogja.id/images/berita/gudang-jogja-fakta-menarik-tugu-yogyakarta-asal-usul-hingga-filosofi-98.jpeg",
-                                title:
-                                    "Pelantikan Kepala Desa Desa Maju, Masa Jabatan 2025 - 2033",
-                                date: "20 Januari 2025");
+                                imageUrl: kabarDesa.picturePath!,
+                                title: kabarDesa.title!,
+                                date: PublicFunction().formatTanggal(kabarDesa.createdAt!));
                           },
                         )
                       ],

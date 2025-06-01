@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:satu_desa/core/public/shimmer/shimmer_home_page.dart';
+import 'package:satu_desa/core/public/shimmer/shimmer_kabar_desa.dart';
 import 'package:satu_desa/core/public/widgets/custom_list_tile.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
 import 'package:satu_desa/features/dana_desa/cubit/dana_desa_cubit.dart';
@@ -43,7 +43,7 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
         bloc: cubit,
         builder: (context, state) {
           if (state.status == DanaDesaStatus.loading) {
-            return ShimmerHomePage();
+            return ShimmerKabarDesaPage();
           } else if (state.status == DanaDesaStatus.failed) {
             AwesomeDialog(
                 context: context,
@@ -79,6 +79,7 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                     ListView.builder(
                       itemCount: state.danaDesaModel!.data.first.usages.length,
                       shrinkWrap: true,
+                      reverse: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         var data =
@@ -97,11 +98,17 @@ class _DanaDesaPageState extends State<DanaDesaPage> {
                                 onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DanaDesaDetailPage(
-                                          dataUsage: data),
+                                      builder: (context) =>
+                                          DanaDesaDetailPage(dataUsage: data),
                                     )),
                                 child: CustomListTile(
-                                    iconAsset: "assets/icons/ic_done.svg",
+                                    iconAsset: data.categoryType ==
+                                            "INFRASTRUKTUR_DESA"
+                                        ? "assets/icons/ic_infrastruktur.svg"
+                                        : data.categoryType ==
+                                                "INVENTARIS_PEMERINTAH"
+                                            ? "assets/icons/ic_inventaris.svg"
+                                            : "assets/icons/ic_bantuan_sosial.svg",
                                     title: data.categoryType ==
                                             "INFRASTRUKTUR_DESA"
                                         ? "Infrastruktur desa"

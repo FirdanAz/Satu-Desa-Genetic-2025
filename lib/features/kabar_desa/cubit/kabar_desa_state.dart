@@ -19,7 +19,7 @@ class KabarDesaState extends Equatable {
   }) {
     return KabarDesaState(
       status: status ?? this.status,
-      kabarDesaModel: kabarDesa ?? this.kabarDesaModel,
+      kabarDesaModel: kabarDesa ?? kabarDesaModel,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

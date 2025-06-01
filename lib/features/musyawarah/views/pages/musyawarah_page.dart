@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
+import 'package:satu_desa/features/musyawarah/views/pages/musyawarah_detail_page.dart';
 
 class MusyawarahPage extends StatelessWidget {
   const MusyawarahPage({super.key});
@@ -72,7 +73,9 @@ class MusyawarahPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(30),
-                child: Image.asset("assets/images/dummy_musyawarah_list.png"),
+                child: InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MusyawarahDetailPage(),)),
+                  child: Image.asset("assets/images/dummy_musyawarah_list.png")),
               ),
             )
             // SliverToBoxAdapter(

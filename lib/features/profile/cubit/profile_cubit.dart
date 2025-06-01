@@ -20,11 +20,14 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       String? bearerToken = LocalDataPersistance().getBearerToken();
 
-      ProfileModel profileModel = await ApiServices.getProfile(bearerToken!);
+      String desaCode = await ApiServices.getVillageCode(bearerToken!);
+
+
+      ProfileModel profileModel = await ApiServices.getProfile(bearerToken);
       print(profileModel);
 
       emit(ProfileState(
-          status: ProfileStatus.success, profileModel: profileModel));
+          status: ProfileStatus.success, profileModel: profileModel, desaCode: desaCode));
     } catch (e) {
       if (kDebugMode) print(e);
       emit(ProfileState(
@@ -105,12 +108,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> fetchRegencies(
-      String provinceId) async {
+  Future<void> fetchRegencies(String provinceId) async {
     try {
       final regencies = await ApiServices.getRegencies(provinceId);
-      emit(state.copyWith(
-          kabupaten: regencies));
+      emit(state.copyWith(kabupaten: regencies));
     } catch (e) {
       if (kDebugMode) print(e);
     }
@@ -119,8 +120,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchDistricts(String regencyId) async {
     try {
       final districts = await ApiServices.getDistricts(regencyId);
-      emit(state.copyWith(
-          kecamatan: districts));
+      emit(state.copyWith(kecamatan: districts));
     } catch (e) {
       if (kDebugMode) print(e);
     }

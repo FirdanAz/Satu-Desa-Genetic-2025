@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:satu_desa/core/constant/constant.dart';
 
 class KabarDesaListCardWidget extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final String title;
   final String date;
 
   const KabarDesaListCardWidget({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     required this.title,
     required this.date,
   });
@@ -30,15 +31,15 @@ class KabarDesaListCardWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ClipRRect(
+          imageUrl != null ? ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
-              imageUrl,
+              Constant.baseUrlImage + imageUrl!,
               width: 70,
               height: 70,
               fit: BoxFit.cover,
             ),
-          ),
+          ) : Container(),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

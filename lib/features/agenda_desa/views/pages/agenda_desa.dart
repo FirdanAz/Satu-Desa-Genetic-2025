@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:satu_desa/core/theme/app_color.dart';
+import 'package:satu_desa/features/agenda_desa/views/pages/agenda_detail_page.dart';
 
 class AgendaDesa extends StatelessWidget {
   const AgendaDesa({super.key});
@@ -72,7 +73,17 @@ class AgendaDesa extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30),
-                child: Image.asset("assets/images/dummy_agenda_list.png", fit: BoxFit.fitWidth,),
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AgendaDetailPage(),
+                      )),
+                  child: Image.asset(
+                    "assets/images/dummy_agenda_list.png",
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
               ),
             )
             // SliverToBoxAdapter(

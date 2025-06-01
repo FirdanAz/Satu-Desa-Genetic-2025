@@ -266,4 +266,37 @@ class ApiServices {
       rethrow;
     }
   }
+
+  static Future<String> getVillageCode(String bearerToken) async {
+    const String endPoint = "/desa/code";
+    const String url = "${Constant.baseUrl}$endPoint";
+
+    final Map<String, String> headers = {
+      "Accept": "application/json",
+      "Authorization": "Bearer $bearerToken",
+    };
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: headers,
+      );
+
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return json.decode(response.body)["data"][0]["kode_desa"].toString();
+      } else {
+        throw Exception(
+            "Get Profile failed with status code: ${response.statusCode}");
+      }
+    } on SocketException {
+      throw const SocketException("No Internet connection");
+    } on TimeoutException {
+      throw TimeoutException("Request timed out");
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
